@@ -13,13 +13,13 @@
             --bg-primary: #000000;
             --bg-secondary: #050505;
             --bg-tertiary: #0a0a0a;
-            --bg-glass: rgba(255, 255, 255, 0.03);
-            --bg-glass-hover: rgba(255, 255, 255, 0.06);
+            --bg-glass: rgba(255, 255, 255, 0.04);
+            --bg-glass-hover: rgba(255, 255, 255, 0.08);
             --text-primary: #ffffff;
-            --text-secondary: #a0a0a0;
+            --text-secondary: #b0b0b0;
             --text-tertiary: #888888;
-            --border-glass: rgba(255, 255, 255, 0.08);
-            --border-glass-strong: rgba(255, 255, 255, 0.18);
+            --border-glass: rgba(255, 255, 255, 0.1);
+            --border-glass-strong: rgba(255, 255, 255, 0.2);
             --error: #ff5555;
             --success: #55ff88;
             --warning: #ffaa55;
@@ -498,14 +498,14 @@
         /* SIDEBAR */
         .sidebar {
             width: var(--sidebar-width);
-            background: rgba(5, 5, 5, 0.95);
+            background: rgba(5, 5, 5, 0.97);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-right: 1px solid var(--border-glass);
             display: flex;
             flex-direction: column;
             transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 100;
+            z-index: 200;
             padding-top: var(--safe-top);
             padding-left: var(--safe-left);
         }
@@ -786,7 +786,6 @@
             cursor: pointer;
             padding: 4px;
             flex-shrink: 0;
-            display: none;
             align-items: center;
             justify-content: center;
         }
@@ -838,7 +837,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 6px 12px;
+            padding: 8px 14px;
             background: var(--bg-glass);
             border: 1px solid var(--border-glass);
             border-radius: 20px;
@@ -846,6 +845,7 @@
             transition: all 0.3s ease;
             font-size: 0.85rem;
             font-weight: 600;
+            color: var(--text-primary);
         }
 
         .model-button:hover {
@@ -926,6 +926,7 @@
             display: flex;
             align-items: center;
             gap: 6px;
+            color: var(--text-primary);
         }
 
         .model-badge {
@@ -968,7 +969,7 @@
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: 600;
-            color: var(--text-secondary);
+            color: var(--text-primary);
             transition: all 0.3s ease;
             font-variant-numeric: tabular-nums;
         }
@@ -999,7 +1000,7 @@
             border-radius: 8px;
             background: var(--bg-glass);
             border: 1px solid var(--border-glass);
-            color: var(--text-secondary);
+            color: var(--text-primary);
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -1123,6 +1124,7 @@
             font-weight: 600;
             margin-bottom: 4px;
             font-size: 0.9rem;
+            color: var(--text-primary);
         }
 
         .suggestion-desc {
@@ -1186,6 +1188,7 @@
         .message-author {
             font-weight: 600;
             font-size: 0.9rem;
+            color: var(--text-primary);
         }
 
         .message-author.ai-name {
@@ -1338,6 +1341,7 @@
             display: flex;
             align-items: center;
             gap: 4px;
+            color: var(--text-secondary);
         }
 
         .input-footer-tokens svg {
@@ -1380,9 +1384,9 @@
         .overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(5px);
-            z-index: 99;
+            z-index: 150;
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
@@ -1447,6 +1451,7 @@
             font-style: italic;
             font-size: 1.5rem;
             font-weight: 700;
+            color: var(--text-primary);
         }
 
         .settings-close {
@@ -1455,7 +1460,7 @@
             border-radius: 50%;
             background: var(--bg-glass);
             border: 1px solid var(--border-glass);
-            color: var(--text-secondary);
+            color: var(--text-primary);
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -1529,6 +1534,7 @@
         .settings-item-label {
             font-weight: 600;
             font-size: 0.9rem;
+            color: var(--text-primary);
         }
 
         .settings-item-description {
@@ -1607,7 +1613,7 @@
             background: transparent;
             border: 1px solid var(--border-glass);
             border-radius: 8px;
-            color: var(--text-secondary);
+            color: var(--text-primary);
             cursor: pointer;
             transition: all 0.3s ease;
             font-family: var(--font-body);
@@ -1687,6 +1693,7 @@
             font-size: 1.15rem;
             font-weight: 600;
             margin-bottom: 8px;
+            color: var(--text-primary);
         }
 
         .confirm-text {
@@ -2064,14 +2071,6 @@
                         </svg>
                         Config
                     </button>
-                    <button class="sidebar-btn" onclick="confirmLogout()" aria-label="Sair da conta">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                            <polyline points="16 17 21 12 16 7"/>
-                            <line x1="21" y1="12" x2="9" y2="12"/>
-                        </svg>
-                        Sair
-                    </button>
                 </div>
             </div>
         </aside>
@@ -2103,7 +2102,7 @@
                                 <polyline points="2 17 12 22 22 17"/>
                                 <polyline points="2 12 12 17 22 12"/>
                             </svg>
-                            <span id="currentModel">klipza.lite</span>
+                            <span>Modelos</span>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 12px; height: 12px;">
                                 <polyline points="6 9 12 15 18 9"/>
                             </svg>
@@ -2298,12 +2297,37 @@
                 </div>
 
                 <div class="settings-section">
+                    <div class="settings-section-title">Conta</div>
+                    <div class="settings-item" id="deletionNotice" style="display: none; border-color: var(--warning); background: rgba(255, 170, 85, 0.08);">
+                        <div class="settings-item-header">
+                            <div class="settings-item-label" style="color: var(--warning);">Exclusao Agendada</div>
+                        </div>
+                        <div class="settings-item-description" id="deletionCountdown" style="color: var(--warning);">-</div>
+                        <button class="btn-secondary" style="margin-top: 10px; border-color: var(--warning); color: var(--warning);" onclick="cancelDeletion()">Cancelar Exclusao</button>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-item-header">
+                            <div class="settings-item-label">Sair da Conta</div>
+                            <button class="btn-secondary" onclick="confirmLogout()">Sair</button>
+                        </div>
+                        <div class="settings-item-description">Encerrar sessao atual</div>
+                    </div>
+                    <div class="settings-item">
+                        <div class="settings-item-header">
+                            <div class="settings-item-label">Excluir Conta</div>
+                            <button class="btn-secondary btn-danger" onclick="confirmDeleteAccount()">Excluir</button>
+                        </div>
+                        <div class="settings-item-description">Solicitar exclusao permanente. A conta sera removida apos 24 horas sem possibilidade de recuperacao.</div>
+                    </div>
+                </div>
+
+                <div class="settings-section">
                     <div class="settings-section-title">Sobre</div>
                     <div class="settings-item">
                         <div class="settings-item-header">
                             <div class="settings-item-label">Versao</div>
                         </div>
-                        <div class="settings-item-description">klipza.ia v1.0.0 — Starborne Garden</div>
+                        <div class="settings-item-description">klipza.ia v1.0.0 - Starborne Garden</div>
                     </div>
                     <div class="settings-item">
                         <div class="settings-item-header">
@@ -2502,9 +2526,7 @@
                 }
                 
                 this.currentModel = model;
-                document.getElementById('currentModel').textContent = `klipza.${model}`;
                 
-                // Update UI
                 document.querySelectorAll('.model-option').forEach(opt => {
                     opt.classList.remove('selected');
                     if (opt.dataset.model === model) {
@@ -2529,7 +2551,6 @@
                 const saved = Storage.get('klipza_model');
                 if (saved) {
                     this.currentModel = saved;
-                    document.getElementById('currentModel').textContent = `klipza.${saved}`;
                     document.querySelectorAll('.model-option').forEach(opt => {
                         opt.classList.remove('selected');
                         if (opt.dataset.model === saved) {
@@ -2537,6 +2558,98 @@
                         }
                     });
                 }
+            }
+        };
+
+        // =========================================
+        // SISTEMA DE EXCLUSÃO DE CONTA
+        // =========================================
+        const AccountDeletion = {
+            DELETION_DELAY: 24 * 60 * 60 * 1000,
+
+            scheduleDeletion() {
+                if (!AppState.currentUser) return;
+                const users = Storage.get('klipza_users') || {};
+                const user = users[AppState.currentUser.username];
+                if (!user) return;
+
+                user.deletionScheduled = Date.now();
+                users[AppState.currentUser.username] = user;
+                Storage.set('klipza_users', users);
+                AppState.currentUser = user;
+                
+                this.updateDeletionUI();
+                showToast('Conta marcada para exclusao em 24 horas.');
+            },
+
+            cancelDeletion() {
+                if (!AppState.currentUser) return;
+                const users = Storage.get('klipza_users') || {};
+                const user = users[AppState.currentUser.username];
+                if (!user) return;
+
+                delete user.deletionScheduled;
+                users[AppState.currentUser.username] = user;
+                Storage.set('klipza_users', users);
+                AppState.currentUser = user;
+                
+                this.updateDeletionUI();
+                showToast('Exclusao da conta cancelada.');
+            },
+
+            checkAndExecute() {
+                if (!AppState.currentUser) return;
+                const users = Storage.get('klipza_users') || {};
+                const user = users[AppState.currentUser.username];
+                if (!user || !user.deletionScheduled) return;
+
+                const elapsed = Date.now() - user.deletionScheduled;
+                if (elapsed >= this.DELETION_DELAY) {
+                    delete users[AppState.currentUser.username];
+                    Storage.set('klipza_users', users);
+                    Storage.remove(`klipza_data_${AppState.currentUser.username}`);
+                    Storage.remove(`klipza_tokens_${AppState.currentUser.username}`);
+                    Storage.remove('klipza_session');
+                    Storage.remove('klipza_model');
+                    
+                    AppState.currentUser = null;
+                    AppState.chats = {};
+                    AppState.currentChatId = null;
+                    
+                    document.getElementById('loginForm').reset();
+                    document.getElementById('registerForm').reset();
+                    showAuth();
+                    showToast('Conta excluida permanentemente.');
+                }
+            },
+
+            updateDeletionUI() {
+                const notice = document.getElementById('deletionNotice');
+                const countdownEl = document.getElementById('deletionCountdown');
+                
+                if (!AppState.currentUser || !AppState.currentUser.deletionScheduled) {
+                    notice.style.display = 'none';
+                    return;
+                }
+
+                notice.style.display = 'block';
+                const remaining = this.DELETION_DELAY - (Date.now() - AppState.currentUser.deletionScheduled);
+                
+                if (remaining <= 0) {
+                    countdownEl.textContent = 'Exclusao iminente...';
+                } else {
+                    const hours = Math.floor(remaining / (60 * 60 * 1000));
+                    const minutes = Math.floor((remaining % (60 * 60 * 1000)) / (60 * 1000));
+                    countdownEl.textContent = `Conta sera excluida permanentemente em ${hours}h ${minutes}min. Esta acao e irreversivel.`;
+                }
+            },
+
+            startDeletionCheck() {
+                if (this.checkInterval) clearInterval(this.checkInterval);
+                this.checkInterval = setInterval(() => {
+                    this.updateDeletionUI();
+                    this.checkAndExecute();
+                }, 30000);
             }
         };
 
@@ -2699,9 +2812,12 @@
                 const users = Storage.get('klipza_users') || {};
                 if (users[session.username]) {
                     AppState.currentUser = users[session.username];
-                    loadUserData();
-                    showApp();
-                    return;
+                    AccountDeletion.checkAndExecute();
+                    if (AppState.currentUser) {
+                        loadUserData();
+                        showApp();
+                        return;
+                    }
                 }
             }
             showAuth();
@@ -2718,6 +2834,8 @@
             renderSidebar();
             TokenSystem.updateUI();
             TokenSystem.startCountdown();
+            AccountDeletion.updateDeletionUI();
+            AccountDeletion.startDeletionCheck();
             if (!AppState.currentChatId || !AppState.chats[AppState.currentChatId]) {
                 createNewChat();
             } else {
@@ -2816,6 +2934,25 @@
             btn.textContent = 'Entrar no Cosmos';
 
             if (foundUser) {
+                if (foundUser.deletionScheduled) {
+                    const elapsed = Date.now() - foundUser.deletionScheduled;
+                    if (elapsed >= AccountDeletion.DELETION_DELAY) {
+                        delete users[foundUser.username];
+                        Storage.set('klipza_users', users);
+                        Storage.remove(`klipza_data_${foundUser.username}`);
+                        Storage.remove(`klipza_tokens_${foundUser.username}`);
+                        showError('Esta conta foi excluida permanentemente.');
+                        return;
+                    } else {
+                        AppState.currentUser = foundUser;
+                        Storage.set('klipza_session', { username: foundUser.username, remember });
+                        loadUserData();
+                        showApp();
+                        showToast(`Bem-vindo de volta. Sua conta sera excluida em ${Math.ceil((AccountDeletion.DELETION_DELAY - elapsed) / (60 * 60 * 1000))} horas.`);
+                        return;
+                    }
+                }
+
                 AppState.currentUser = foundUser;
                 Storage.set('klipza_session', { username: foundUser.username, remember });
                 loadUserData();
@@ -2953,6 +3090,9 @@
             if (TokenSystem.countdownInterval) {
                 clearInterval(TokenSystem.countdownInterval);
             }
+            if (AccountDeletion.checkInterval) {
+                clearInterval(AccountDeletion.checkInterval);
+            }
             AppState.currentUser = null;
             AppState.chats = {};
             AppState.currentChatId = null;
@@ -2960,6 +3100,27 @@
             document.getElementById('registerForm').reset();
             showAuth();
             showToast('Voce saiu da conta.');
+        }
+
+        function confirmDeleteAccount() {
+            showConfirm(
+                'Excluir Conta Permanentemente?',
+                'Ao confirmar, sua conta sera marcada para exclusao. Após 24 horas, todos os seus dados serao removidos permanentemente e nao poderao ser recuperados. Deseja prosseguir?',
+                () => {
+                    AccountDeletion.scheduleDeletion();
+                    closeSettings();
+                }
+            );
+        }
+
+        function cancelDeletion() {
+            showConfirm(
+                'Cancelar Exclusao da Conta?',
+                'Sua conta nao sera mais excluida. Todos os dados serao mantidos normalmente.',
+                () => {
+                    AccountDeletion.cancelDeletion();
+                }
+            );
         }
 
         // =========================================
@@ -3290,7 +3451,6 @@
             ModelSystem.selectModel(model);
         }
 
-        // Fechar dropdown ao clicar fora
         document.addEventListener('click', (e) => {
             const modelSelector = document.querySelector('.model-selector');
             if (modelSelector && !modelSelector.contains(e.target)) {
@@ -3333,6 +3493,7 @@
         function openSettings() {
             document.getElementById('settingsModal').classList.add('active');
             closeSidebar();
+            AccountDeletion.updateDeletionUI();
         }
 
         function closeSettings() {
@@ -3472,6 +3633,7 @@
         window.showToast = showToast;
         window.toggleModelDropdown = toggleModelDropdown;
         window.selectModel = selectModel;
+        window.cancelDeletion = cancelDeletion;
     </script>
 </body>
 </html>
