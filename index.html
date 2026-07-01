@@ -1376,6 +1376,26 @@
             color: var(--bg-primary);
         }
 
+        .rotating-sun svg {
+            animation: sunRotate 3s linear infinite;
+        }
+
+        @keyframes sunRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .animating .message-text {
+            border-left: 2px solid var(--text-primary);
+            padding-left: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .reveal-text p {
+            margin: 0;
+            display: inline;
+        }
+
         .message-avatar.user {
             background: linear-gradient(135deg, #333, #555);
             color: var(--text-primary);
@@ -2662,8 +2682,8 @@
         // SISTEMA DE TOKENS
         // =========================================
         const TokenSystem = {
-            MAX_TOKENS: 100,
-            COST_PER_MESSAGE: 2,
+            MAX_TOKENS: 50, // Reduzido para 50 mensagens por dia
+            COST_PER_MESSAGE: 1, // 1 token por mensagem
             RESET_INTERVAL: 24 * 60 * 60 * 1000,
 
             getUserTokens() {
@@ -3634,14 +3654,90 @@
             document.getElementById('btnSend').disabled = true;
             showTypingIndicator();
 
-            await new Promise(r => setTimeout(r, 1000 + Math.random() * 1500));
-
-            removeTypingIndicator();
-            const response = generateResponse(text);
-            addMessage('ai', 'klipza.ia', response);
+            try {
+                const response = await callGeminiAPI(text);
+                removeTypingIndicator();
+                await addMessageWithAnimation('ai', 'klipza.ia', response);
+            } catch (error) {
+                removeTypingIndicator();
+                addMessage('ai', 'klipza.ia', 'Desculpe, ocorreu um erro na conexao estelar. Tente novamente em breve.');
+            }
 
             AppState.isGenerating = false;
             updateSendButton();
+        }
+
+        async function callGeminiAPI(prompt) {
+            const API_KEY = 'AIzaSyCIgwIeYgTiBuIzwxGLQhG2aN81208-IFU';
+            const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+            
+            const chat = AppState.chats[AppState.currentChatId];
+            const history = chat.messages.slice(-6).map(m => ({
+                role: m.role === 'ai' ? 'model' : 'user',
+                parts: [{ text: m.text }]
+            }));
+
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [...history, { role: 'user', parts: [{ text: prompt }] }],
+                    generationConfig: {
+                        temperature: 0.7,
+                        maxOutputTokens: 1000,
+                    }
+                })
+            });
+
+            if (!response.ok) throw new Error('API request failed');
+            const data = await response.json();
+            return data.candidates[0].content.parts[0].text;
+        }
+
+        async function addMessageWithAnimation(role, author, text) {
+            const chat = AppState.chats[AppState.currentChatId];
+            if (!chat) return;
+
+            const time = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            const msg = { role, author, text: '', time, timestamp: Date.now() };
+            
+            const wrapper = document.getElementById('messagesWrapper');
+            const row = document.createElement('div');
+            row.className = 'message-row animating';
+            
+            row.innerHTML = `
+                <div class="message-avatar ai rotating-sun">${svgStar}</div>
+                <div class="message-content">
+                    <div class="message-header">
+                        <span class="message-author ai-name">${escapeHtml(author)}</span>
+                        <span class="message-time">${time}</span>
+                    </div>
+                    <div class="message-text reveal-text"></div>
+                </div>
+            `;
+            wrapper.appendChild(row);
+            scrollToBottom();
+
+            const textEl = row.querySelector('.reveal-text');
+            const sunEl = row.querySelector('.rotating-sun');
+            
+            let currentText = '';
+            const words = text.split(' ');
+            
+            for (let i = 0; i < words.length; i++) {
+                currentText += words[i] + ' ';
+                textEl.innerHTML = formatMessageText(currentText);
+                scrollToBottom();
+                await new Promise(r => setTimeout(r, 60 + Math.random() * 40)); // Escrita lenta
+            }
+
+            // Finalizar mensagem
+            msg.text = text;
+            chat.messages.push(msg);
+            chat.updatedAt = Date.now();
+            row.classList.remove('animating');
+            sunEl.classList.remove('rotating-sun');
+            saveUserData();
         }
 
         // =========================================
@@ -3674,8 +3770,13 @@
             }
         });
 
+        let lastSendTime = 0;
         btnSend.addEventListener('click', () => {
+            const now = Date.now();
+            if (now - lastSendTime < 2000) return; // Anti-spam: 2 segundos entre envios
+            
             if (!btnSend.disabled) {
+                lastSendTime = now;
                 sendMessage(userInput.value);
                 userInput.value = '';
                 userInput.style.height = 'auto';
