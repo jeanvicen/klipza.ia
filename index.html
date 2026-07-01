@@ -12,7 +12,7 @@
     <link rel="apple-touch-icon" href="logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;1,700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-primary: #000000;
@@ -270,9 +270,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(0, 0, 0, 0.92);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
+            background: #000;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
             padding: calc(20px + var(--safe-top)) 20px calc(20px + var(--safe-bottom));
             overflow-y: auto;
             transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s ease;
@@ -2829,7 +2829,7 @@
             chats: {},
             isGenerating: false,
             settings: {
-                particleDensity: 300,
+                particleDensity: 100, // Reduzido de 300 para 100 para performance
                 focusMode: false
             }
         };
@@ -2846,8 +2846,8 @@
         let isInBackground = false;
 
         const particleConfig = {
-            connectRadius: 80,
-            lineAlphaFactor: 0.6,
+            connectRadius: 60, // Reduzido de 80 para 60
+            lineAlphaFactor: 0.4, // Reduzido de 0.6 para 0.4
             decayRate: 0.98,
             cameraZ: 400
         };
@@ -2893,33 +2893,33 @@
                 return;
             }
 
-            if (timestamp - lastFrameTime < 16) {
+            // Limitar a 30 FPS em mobile para economizar bateria e CPU
+            const fpsInterval = window.innerWidth < 768 ? 33 : 16;
+            if (timestamp - lastFrameTime < fpsInterval) {
                 animationId = requestAnimationFrame(animateParticles);
                 return;
             }
             lastFrameTime = timestamp;
 
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#000';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             const time = timestamp;
             particles.forEach(p => {
-                p.theta += rippleX * 0.01;
-                p.theta += rippleY * 0.01;
                 p.update(time);
             });
 
-            rippleX *= particleConfig.decayRate;
-            rippleY *= particleConfig.decayRate;
-
-            if (!AppState.settings.focusMode) {
+            // Otimização: Não desenhar linhas em mobile para máxima performance
+            if (!AppState.settings.focusMode && window.innerWidth > 768) {
                 for (let i = 0; i < particles.length; i++) {
                     for (let j = i + 1; j < particles.length; j++) {
                         const dx = particles[i].screenX - particles[j].screenX;
                         const dy = particles[i].screenY - particles[j].screenY;
-                        const dist = Math.sqrt(dx * dx + dy * dy);
-                        if (dist < particleConfig.connectRadius) {
-                            const alpha = (1 - dist / particleConfig.connectRadius) * particleConfig.lineAlphaFactor;
+                        const dist = dx * dx + dy * dy; // Evitar Math.sqrt
+                        const radiusSq = particleConfig.connectRadius * particleConfig.connectRadius;
+                        if (dist < radiusSq) {
+                            const alpha = (1 - Math.sqrt(dist) / particleConfig.connectRadius) * particleConfig.lineAlphaFactor;
                             ctx.beginPath();
                             ctx.moveTo(particles[i].screenX, particles[i].screenY);
                             ctx.lineTo(particles[j].screenX, particles[j].screenY);
@@ -2993,11 +2993,22 @@
         function showAuth() {
             document.getElementById('authScreen').classList.remove('hidden');
             document.getElementById('appContainer').classList.remove('visible');
+            // Desativar animação de fundo na tela de login para evitar lag
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
+            document.getElementById('starborne-canvas').style.display = 'none';
         }
 
         function showApp() {
             document.getElementById('authScreen').classList.add('hidden');
             document.getElementById('appContainer').classList.add('visible');
+            // Reativar animação de fundo se não estiver em modo de foco
+            document.getElementById('starborne-canvas').style.display = 'block';
+            if (!animationId && !AppState.settings.focusMode) {
+                animationId = requestAnimationFrame(animateParticles);
+            }
             renderSidebar();
             TokenSystem.updateUI();
             TokenSystem.startCountdown();
