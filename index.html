@@ -59,6 +59,81 @@
         }
 
         /* =========================================
+           PWA UPDATE BANNER
+           ========================================= */
+        .update-banner {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 12px 16px;
+            z-index: 11000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            color: #000;
+        }
+
+        @keyframes slideUp {
+            from { transform: translate(-50%, 100%); opacity: 0; }
+            to { transform: translate(-50%, 0); opacity: 1; }
+        }
+
+        .update-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .update-icon {
+            width: 24px;
+            height: 24px;
+            color: #000;
+            flex-shrink: 0;
+        }
+
+        .update-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .update-text strong {
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .update-text span {
+            font-size: 0.75rem;
+            opacity: 0.8;
+        }
+
+        .btn-update-now {
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-update-now:hover {
+            transform: scale(1.05);
+        }
+
+        /* =========================================
            PWA INSTALL BANNER
            ========================================= */
         .install-banner {
@@ -2043,6 +2118,22 @@
 </head>
 <body>
     <!-- SPLASH SCREEN -->
+    <!-- PWA Update Notification -->
+    <div id="update-banner" class="update-banner" style="display: none;">
+        <div class="update-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="update-icon">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <div class="update-text">
+                <strong>Nova Versão Disponível</strong>
+                <span>Atualize para aproveitar as melhorias.</span>
+            </div>
+        </div>
+        <button onclick="updateApp()" class="btn-update-now">Atualizar Agora</button>
+    </div>
+
     <!-- PWA Install Banner -->
     <div id="install-banner" class="install-banner" style="display: none;">
         <div class="install-content">
@@ -3814,12 +3905,35 @@
         window.cancelDeletion = cancelDeletion;
     </script>
     <script>
+        let newWorker;
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('SW registered'))
-                    .catch(err => console.log('SW error', err));
+                navigator.serviceWorker.register('sw.js').then(reg => {
+                    reg.addEventListener('updatefound', () => {
+                        newWorker = reg.installing;
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                // Mostrar banner de atualização
+                                document.getElementById('update-banner').style.display = 'flex';
+                            }
+                        });
+                    });
+                });
+
+                let refreshing;
+                navigator.serviceWorker.addEventListener('controllerchange', () => {
+                    if (refreshing) return;
+                    window.location.reload();
+                    refreshing = true;
+                });
             });
+        }
+
+        function updateApp() {
+            if (newWorker) {
+                newWorker.postMessage('skipWaiting');
+            }
+            document.getElementById('update-banner').style.display = 'none';
         }
 
         let deferredPrompt;

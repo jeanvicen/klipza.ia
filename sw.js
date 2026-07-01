@@ -1,4 +1,4 @@
-const CACHE_NAME = 'klipza-v1';
+const CACHE_NAME = 'klipza-v2'; // Incrementado para v2
 const ASSETS = [
   '/',
   '/index.html',
@@ -12,6 +12,21 @@ self.addEventListener('install', (event) => {
       return cache.addAll(ASSETS);
     })
   );
+  self.skipWaiting(); // Força o novo service worker a se tornar ativo imediatamente
+});
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cache) => {
+          if (cache !== CACHE_NAME) {
+            return caches.delete(cache);
+          }
+        })
+      );
+    })
+  );
 });
 
 self.addEventListener('fetch', (event) => {
@@ -20,4 +35,11 @@ self.addEventListener('fetch', (event) => {
       return response || fetch(event.request);
     })
   );
+});
+
+// Escutar mensagem para pular espera
+self.addEventListener('message', (event) => {
+  if (event.data === 'skipWaiting') {
+    self.skipWaiting();
+  }
 });
