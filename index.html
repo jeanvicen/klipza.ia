@@ -238,8 +238,26 @@
             width: 100vw;
             height: 100dvh;
             z-index: 0;
-            pointer-events: auto;
-            background: radial-gradient(ellipse at center, #030010 0%, #000000 100%);
+            pointer-events: none;
+            background: #000;
+            opacity: 0.6;
+        }
+
+        /* Otimização de Performance Mobile */
+        @media (max-width: 768px) {
+            * {
+                text-rendering: optimizeSpeed;
+            }
+            .sidebar, .auth-screen, .settings-modal, .overlay {
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+            }
+            .sidebar {
+                background: #0a0a0a;
+            }
+            .auth-screen {
+                background: rgba(0, 0, 0, 0.98);
+            }
         }
 
         /* =========================================
@@ -458,10 +476,35 @@
         }
 
         .checkbox-wrapper input[type="checkbox"] {
-            width: 16px;
-            height: 16px;
-            accent-color: var(--text-primary);
+            appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-glass-strong);
+            border-radius: 6px;
+            background: var(--bg-glass);
             cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .checkbox-wrapper input[type="checkbox"]:checked {
+            background: var(--text-primary);
+            border-color: var(--text-primary);
+        }
+
+        .checkbox-wrapper input[type="checkbox"]:checked::after {
+            content: '✓';
+            color: var(--bg-primary);
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .checkbox-wrapper input[type="checkbox"]:focus {
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
         }
 
         .auth-link {
@@ -1474,12 +1517,20 @@
         .overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
             z-index: 150;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s ease;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            pointer-events: none;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
         }
 
         .overlay.active {
@@ -3589,8 +3640,8 @@
         overlay.addEventListener('click', closeSidebar);
 
         function closeSidebar() {
-            sidebar.classList.remove('open');
-            overlay.classList.remove('active');
+            if (sidebar) sidebar.classList.remove('open');
+            if (overlay) overlay.classList.remove('active');
         }
 
         document.getElementById('btnNewChat').addEventListener('click', () => {
