@@ -34,3 +34,18 @@ O **klipza.ia** é um assistente pessoal inteligente e minimalista, projetado pa
 ---
 Desenvolvido com ❤️ por **Klipza Studio**.
 © 2026 Klipza Studio. Todos os direitos reservados.
+
+## 🔒 Segurança da API
+
+Para proteger sua chave da OpenRouter, o projeto utiliza **Vercel Serverless Functions**. A chave **não está exposta no código frontend**.
+
+### Como configurar a chave:
+
+1. Vá para o painel do seu projeto no **Vercel**.
+2. Acesse **Settings > Environment Variables**.
+3. Adicione uma nova variável:
+   - **Key:** `OPENROUTER_API_KEY`
+   - **Value:** `Sua Chave OpenRouter` (Cole sua chave sk-or-v1-...)
+4. Clique em **Save** e faça um novo Deploy (ou aguarde o próximo push).
+
+Isso garante que ninguém consiga ver ou roubar sua chave através do navegador!

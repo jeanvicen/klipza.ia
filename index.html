@@ -3674,10 +3674,8 @@
         }
 
         async function callGeminiAPI(prompt) {
-            // A chave da API deve ser configurada nas variaveis de ambiente do Vercel para seguranca
-            // Ou inserida manualmente aqui pelo usuario
-            const API_KEY = 'SUA_CHAVE_OPENROUTER_AQUI';
-            const API_URL = 'https://openrouter.ai/api/v1/chat/completions';
+            // Rota segura via Vercel Serverless Function
+            const API_URL = '/api/chat';
             
             const chat = AppState.chats[AppState.currentChatId];
             const history = chat.messages.slice(-6).map(m => ({
@@ -3687,23 +3685,15 @@
 
             const response = await fetch(API_URL, {
                 method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${API_KEY}`,
-                    'HTTP-Referer': window.location.origin,
-                    'X-Title': 'klipza.ia'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    model: 'meta-llama/llama-3.2-1b-instruct:free',
-                    messages: [...history, { role: 'user', content: prompt }],
-                    temperature: 0.7,
-                    max_tokens: 1000
+                    messages: [...history, { role: 'user', content: prompt }]
                 })
             });
 
             if (!response.ok) {
                 const errorData = await response.json();
-                console.error('OpenRouter Error:', errorData);
+                console.error('API Error:', errorData);
                 throw new Error('API request failed');
             }
             const data = await response.json();
