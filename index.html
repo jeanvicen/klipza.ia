@@ -3674,30 +3674,34 @@
         }
 
         async function callGeminiAPI(prompt) {
-            // Rota segura via Vercel Serverless Function
             const API_URL = '/api/chat';
             
             const chat = AppState.chats[AppState.currentChatId];
-            const history = chat.messages.slice(-6).map(m => ({
+            const history = chat.messages.slice(-10).map(m => ({
                 role: m.role === 'ai' ? 'assistant' : 'user',
                 content: m.text
             }));
 
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    messages: [...history, { role: 'user', content: prompt }]
-                })
-            });
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        messages: [...history, { role: 'user', content: prompt }]
+                    })
+                });
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error('API Error:', errorData);
-                throw new Error('API request failed');
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Erro na resposta do servidor');
+                }
+                
+                return data.choices[0].message.content;
+            } catch (error) {
+                console.error('Fetch Error:', error);
+                throw error;
             }
-            const data = await response.json();
-            return data.choices[0].message.content;
         }
 
         async function addMessageWithAnimation(role, author, text) {
@@ -4008,19 +4012,18 @@
         window.cancelDeletion = cancelDeletion;
     </script>
     <script>
-        let newWorker;
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js').then(reg => {
-                    // Verificar atualizações a cada 5 minutos
+                    reg.update();
                     setInterval(() => { reg.update(); }, 1000 * 60 * 5);
 
                     reg.addEventListener('updatefound', () => {
-                        newWorker = reg.installing;
-                        newWorker.addEventListener('statechange', () => {
-                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                // Atualização automática silenciosa
-                                updateApp();
+                        const installingWorker = reg.installing;
+                        installingWorker.addEventListener('statechange', () => {
+                            if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                // Atualização automática: avisa o worker e recarrega
+                                installingWorker.postMessage('skipWaiting');
                             }
                         });
                     });
@@ -4036,21 +4039,10 @@
         }
 
         function updateApp() {
-            if (newWorker) {
-                newWorker.postMessage('skipWaiting');
-            }
-            document.getElementById('update-banner').style.display = 'none';
+            window.location.reload();
         }
 
         let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            // Mostrar botão de instalação customizado se necessário
-            console.log('App pronto para instalar');
-        });
-
-        // Funções para o Banner de Instalação
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
@@ -4058,7 +4050,7 @@
             if (installBanner) {
                 setTimeout(() => {
                     installBanner.style.display = 'flex';
-                }, 3000); // Mostrar após 3 segundos
+                }, 3000);
             }
         });
 

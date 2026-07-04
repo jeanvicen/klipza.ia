@@ -1,4 +1,4 @@
-const CACHE_NAME = 'klipza-v3'; // Incrementado para v3
+const CACHE_NAME = 'klipza-v4';
 const ASSETS = [
   '/',
   '/index.html',
@@ -7,12 +7,12 @@ const ASSETS = [
 ];
 
 self.addEventListener('install', (event) => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(ASSETS);
     })
   );
-  self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
@@ -27,27 +27,26 @@ self.addEventListener('activate', (event) => {
       );
     })
   );
-  // Reivindica o controle das páginas imediatamente
   self.clients.claim();
 });
 
 self.addEventListener('fetch', (event) => {
-  // Estratégia Stale-While-Revalidate para atualização rápida
+  // Ignorar requisições de API para não cachear respostas da IA
+  if (event.request.url.includes('/api/')) {
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       const fetchPromise = fetch(event.request).then((networkResponse) => {
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, networkResponse.clone());
-        });
+        if (networkResponse.ok) {
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, networkResponse.clone());
+          });
+        }
         return networkResponse;
       });
       return cachedResponse || fetchPromise;
     })
   );
-});
-
-self.addEventListener('message', (event) => {
-  if (event.data === 'skipWaiting') {
-    self.skipWaiting();
-  }
 });
