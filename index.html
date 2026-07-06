@@ -3759,7 +3759,7 @@
             for (let li = 0; li < lines.length; li++) {
                 const p = document.createElement('p');
                 textEl.appendChild(p);
-                    const words = lines[li].split(/(\s+)/).filter(w => w.length > 0);
+                    const words = lines[li].split(/(\s+)/);
 
                 if (words.length === 0) {
                     p.innerHTML = '&nbsp;';
