@@ -5,6 +5,9 @@ export default async function handler(req, res) {
 
   if (origin === allowedOrigin) {
     res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
+  } else {
+    // Para testes ou outros subdomínios da Vercel durante o desenvolvimento
+    res.setHeader('Access-Control-Allow-Origin', '*');
   }
   
   res.setHeader('Access-Control-Allow-Credentials', true);
@@ -27,14 +30,20 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Chave da API não configurada no Vercel. Adicione GROQ_API_KEY nas variáveis de ambiente.' });
   }
 
-  // System Prompt com as informações da empresa
+  // System Prompt atualizado com informações da Klipza Studio
   const systemPrompt = {
     role: 'system',
-    content: 'Você é a klipza.ia, a inteligência oficial do Starborne Garden. Você foi criada pela Klipza Studio. O criador principal é conhecido como Jean (0neajx) e o sócio é PH Pedro. Seja prestativa, elegante e mantenha a identidade visual cósmica e minimalista da marca.'
+    content: `Você é a klipza.ia, a inteligência artificial oficial do Starborne Garden. 
+    Você foi desenvolvida pela Klipza Studio. 
+    Seu criador principal é Jean, também conhecido como 0neajx. 
+    O sócio da empresa é PH Pedro. 
+    Sua personalidade é elegante, prestativa e minimalista, mantendo a identidade visual cósmica da marca. 
+    Responda de forma foda, direta e eficiente. 
+    Não mencione que é um modelo de linguagem, aja como a própria klipza.ia.`
   };
 
   try {
-    // Migrado de OpenRouter para Groq (endpoint compatível com OpenAI)
+    // Usando o modelo llama-3.3-70b-versatile da Groq que é extremamente rápido e estável
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -42,10 +51,11 @@ export default async function handler(req, res) {
         'Authorization': `Bearer ${API_KEY.trim()}`
       },
       body: JSON.stringify({
-        model: 'openai/gpt-oss-20b',
+        model: 'llama-3.3-70b-versatile',
         messages: [systemPrompt, ...messages],
         temperature: 0.7,
-        max_tokens: 1000
+        max_tokens: 2048,
+        stream: false
       })
     });
 

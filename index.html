@@ -4057,8 +4057,10 @@
                         newWorker = reg.installing;
                         newWorker.addEventListener('statechange', () => {
                             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                // Atualização automática silenciosa
-                                updateApp();
+                                // Atualização automática imediata
+                                if (newWorker) {
+                                    newWorker.postMessage('skipWaiting');
+                                }
                             }
                         });
                     });
