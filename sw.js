@@ -1,4 +1,4 @@
-const CACHE_NAME = 'klipza-v5';
+const CACHE_NAME = 'klipza-v6';
 const ASSETS = [
   '/',
   '/index.html',
