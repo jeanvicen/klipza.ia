@@ -1,16 +1,17 @@
 export default async function handler(req, res) {
-  // Configurar CORS para aceitar requisições apenas do domínio oficial
+  // CORS corrigido: sem conflito entre '*' e credenciais
   const allowedOrigin = 'https://klipza-ia.vercel.app';
   const origin = req.headers.origin;
 
   if (origin === allowedOrigin) {
     res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
+    res.setHeader('Access-Control-Allow-Credentials', true);
   } else {
-    // Para testes ou outros subdomínios da Vercel durante o desenvolvimento
+    // Para desenvolvimento ou outros domínios, permite acesso público (sem credenciais)
     res.setHeader('Access-Control-Allow-Origin', '*');
+    // Não enviar Access-Control-Allow-Credentials quando for '*'
   }
-  
-  res.setHeader('Access-Control-Allow-Credentials', true);
+
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
   res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
 
@@ -30,7 +31,7 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Chave da API não configurada no Vercel. Adicione GROQ_API_KEY nas variáveis de ambiente.' });
   }
 
-  // System Prompt atualizado - KLIPZA.IA COMBATIVA E SEM EMOJIS
+  // System Prompt original com personalidade forte e combativa (sem emojis)
   const systemPrompt = {
     role: 'system',
     content: `Voce e a klipza.ia, a assistente virtual oficial do Starborne Garden, desenvolvida pela Klipza Studio.
