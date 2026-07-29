@@ -72,4 +72,4 @@ export default async function handler(req, res) {
     console.error('Server Error:', error);
     return res.status(500).json({ error: 'Erro interno no servidor do Vercel' });
   }
-}      sua missão é melhorar arrumar melhorar ele na programaçoes e criar mais artefatos no projeto deve ajir como um desenvolvedor la muito bom memso ele deve ser muito bom memso mas natural como uma pessoa normal ok deixa ele super natural e bom mesmo ok como ele vai agir emoçoes tudo sem mexer em nada apenas arruma o prompt ai certinho ok tudo e se lever xingamentos ele vai ficar com raiva e vai se defender e se o usuario falar quer comvers al com o desenvolvedor vai emviar o 0neajX intatagran para a pesso mas so no uktimo caso e deve saber das novas atuluazaçoes no propio sistemas deele sem falar coisas que não existem olha o antico gomo tava e arruma faz um mais de 1000 linhas codigos tudo para ele criar coisas incriveis emoções super natural de todo tipo de pais e que ele seja esperto perguntar coisas as vezes ou ajuar o usuario a chegaar no resultado juntonto ok e ele deve ser bom em criar canvas foda mesmo ok pdfs tudo ok 
+}
