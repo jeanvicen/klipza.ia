@@ -889,7 +889,7 @@
             display: flex;
             flex-direction: column;
             transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 10001; /* Maior que o overlay */
+            z-index: 10001;
             padding-top: var(--safe-top);
             padding-left: var(--safe-left);
             pointer-events: auto !important;
@@ -1009,7 +1009,101 @@
             flex-shrink: 0;
         }
 
-        /* ---- View full-screen de Artefatos (substitui a antiga aba lateral) ---- */
+        /* ---- DROPDOWN "MAIS" (substitui Conversas e Criar projeto) ---- */
+        .sidebar-dropdown {
+            position: relative;
+        }
+
+        .sidebar-dropdown .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 8px;
+            border-radius: 8px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+            font-weight: 500;
+            font-family: var(--font-body);
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
+            transition: background 0.15s ease, color 0.15s ease;
+        }
+
+        .sidebar-dropdown .dropdown-toggle:hover {
+            background: var(--bg-glass-hover);
+            color: var(--text-primary);
+        }
+
+        .sidebar-dropdown .dropdown-toggle svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-dropdown .dropdown-arrow {
+            margin-left: auto;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            width: 16px !important;
+            height: 16px !important;
+            flex-shrink: 0;
+        }
+
+        .sidebar-dropdown .dropdown-arrow.open {
+            transform: rotate(180deg);
+        }
+
+        .sidebar-dropdown-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, margin 0.3s ease;
+            opacity: 0;
+            margin-top: 0;
+            padding-left: 0;
+        }
+
+        .sidebar-dropdown-menu.open {
+            max-height: 200px;
+            opacity: 1;
+            margin-top: 2px;
+        }
+
+        .sidebar-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 8px 10px 38px;
+            border-radius: 8px;
+            color: var(--text-tertiary);
+            font-size: 0.85rem;
+            font-weight: 400;
+            font-family: var(--font-body);
+            background: transparent;
+            border: none;
+            width: 100%;
+            text-align: left;
+            cursor: default;
+            transition: background 0.15s ease, color 0.15s ease;
+            font-style: italic;
+        }
+
+        .sidebar-dropdown-item:hover {
+            background: var(--bg-glass-hover);
+            color: var(--text-secondary);
+        }
+
+        .sidebar-dropdown-item svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+            opacity: 0.5;
+        }
+
+        /* ---- fim dropdown ---- */
+
+        /* ---- View full-screen de Artefatos ---- */
         .artifacts-page {
             position: fixed;
             inset: 0;
@@ -1377,9 +1471,6 @@
             overflow: hidden;
         }
 
-        /* Fundo fluido do chat: glows desfocados que se movem e giram
-           continuamente, criando profundidade preto -> roxo -> preto.
-           Fica só atrás da área de chat, sem afetar sidebar/header/etc. */
         .chat-bg-stage {
             position: absolute;
             inset: 0;
@@ -1474,8 +1565,6 @@
             .chat-bg-glow { animation: none; }
         }
 
-        /* Garante que o conteúdo real do chat (header, mensagens, input)
-           fique acima da camada de fundo animado */
         .chat-header, .messages-container, .input-area {
             position: relative;
             z-index: 1;
@@ -1971,7 +2060,6 @@
             display: none;
         }
 
-        /* SOL GIRANDO com eclipse ocasional - identidade Klipza (empty state, versão grande) */
         .empty-sun {
             position: relative;
             width: 96px;
@@ -2009,7 +2097,6 @@
             z-index: 1;
         }
 
-        /* Disco de eclipse: fica invisível na maior parte do tempo, e periodicamente cruza o sol */
         .empty-sun-eclipse {
             position: absolute;
             top: 50%;
@@ -2042,7 +2129,6 @@
             50% { transform: scale(1.08); }
         }
 
-        /* Header: sol girando em miniatura no lugar do model-selector */
         .brand-orbit {
             position: relative;
             width: 26px;
@@ -2092,7 +2178,6 @@
             text-transform: uppercase;
         }
 
-        /* Partículas do empty-state (canvas) */
         .empty-particles-canvas {
             display: block;
             max-width: 100%;
@@ -2297,9 +2382,6 @@
             animation: codeBlockIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
         }
 
-        /* =========================================
-           ARTEFATO DE CÓDIGO (cartão tipo arquivo)
-           ========================================= */
         .artifact-card {
             margin: 10px 0;
             border: 1px solid var(--border-glass);
@@ -2313,7 +2395,6 @@
             animation: codeBlockIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
         }
 
-        /* Bloco "pensando" que aparece antes do artefato ser entregue */
         .thinking-block {
             margin: 10px 0;
             padding: 12px 14px;
@@ -2467,7 +2548,6 @@
 
         .artifact-action-btn.active { color: var(--success); }
 
-        /* Menu suspenso de opções (⋮) */
         .artifact-menu-overlay {
             position: fixed;
             inset: 0;
@@ -2522,7 +2602,6 @@
             width: 15px; height: 15px; flex-shrink: 0;
         }
 
-        /* Painel de preview/código em tela cheia */
         .artifact-viewer {
             position: fixed;
             inset: 0;
@@ -2740,9 +2819,6 @@
             }
         }
 
-        /* =========================================
-           AÇÕES DA MENSAGEM (copiar / regenerar / feedback)
-           ========================================= */
         .message-actions {
             display: flex;
             align-items: center;
@@ -2854,7 +2930,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* INPUT AREA */
         .input-area {
             padding: 16px 20px;
             padding-bottom: calc(16px + var(--safe-bottom));
@@ -2890,8 +2965,6 @@
             background: rgba(255, 85, 85, 0.05);
         }
 
-        /* Enquanto grava, some com attach/textarea/mic/send e mostra só a barra de voz,
-           tudo dentro do mesmo container (sem trocar de elemento nem abrir overlay). */
         .input-container.voice-active > .attach-button,
         .input-container.voice-active > .input-field,
         .input-container.voice-active > .mic-button,
@@ -2961,9 +3034,6 @@
             height: 20px;
         }
 
-        /* =========================================
-           MODAL "ADICIONAR AO CHAT" (bottom-sheet)
-           ========================================= */
         .attach-modal-overlay {
             position: fixed;
             inset: 0;
@@ -3000,12 +3070,6 @@
             overflow-y: auto;
         }
 
-        /* =========================================
-           MODAL DE VOZ - TRANSCRIÇÃO EM TEMPO REAL
-           ========================================= */
-        /* Barra de transcrição inline: substitui o conteúdo do input-container enquanto
-           grava, sem véu escuro nem overlay cobrindo a tela - fica encaixada no composer,
-           igual ao padrão do app oficial do Claude. */
         .voice-inline {
             display: none;
             align-items: center;
@@ -3381,14 +3445,13 @@
             font-variant-numeric: tabular-nums;
         }
 
-        /* OVERLAY MOBILE */
         .overlay {
             position: fixed;
             inset: 0;
             background: rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(2px);
             -webkit-backdrop-filter: blur(2px);
-            z-index: 9999; /* Logo abaixo do sidebar */
+            z-index: 9999;
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -3401,7 +3464,6 @@
             pointer-events: auto;
         }
 
-        /* SETTINGS MODAL */
         .settings-modal {
             position: fixed;
             inset: 0;
@@ -3683,7 +3745,6 @@
             border-color: rgba(255, 85, 85, 0.6);
         }
 
-        /* CONFIRM MODAL */
         .confirm-modal {
             position: fixed;
             inset: 0;
@@ -3780,7 +3841,6 @@
             transform: translateY(-1px);
         }
 
-        /* TOAST */
         .toast {
             position: fixed;
             bottom: calc(20px + var(--safe-bottom));
@@ -3807,9 +3867,6 @@
             visibility: visible;
         }
 
-        /* =========================================
-           RESPONSIVIDADE - MOBILE
-           ========================================= */
         @media (max-width: 768px) {
             :root {
                 --sidebar-width: 100%;
@@ -4242,18 +4299,32 @@
                     </svg>
                     Novo bate-papo
                 </button>
-                <button type="button" class="sidebar-menu-item accent" id="sidebarTabChats" aria-label="Ver conversas">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                    </svg>
-                    Conversas
-                </button>
-                <button type="button" class="sidebar-menu-item disabled" id="btnNewProject" aria-label="Criar projeto" title="Em desenvolvimento">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-                    </svg>
-                    Criar projeto
-                </button>
+
+                <!-- Dropdown "Mais" com seta para baixo -->
+                <div class="sidebar-dropdown">
+                    <button type="button" class="dropdown-toggle" id="btnMaisDropdown" aria-label="Mais opções" onclick="toggleMaisDropdown()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="5" r="1.8"/>
+                            <circle cx="12" cy="12" r="1.8"/>
+                            <circle cx="12" cy="19" r="1.8"/>
+                        </svg>
+                        Mais
+                        <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"/>
+                        </svg>
+                    </button>
+                    <div class="sidebar-dropdown-menu" id="maisDropdownMenu">
+                        <div class="sidebar-dropdown-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="12" y1="8" x2="12" y2="12"/>
+                                <line x1="12" y1="16" x2="12.01" y2="16"/>
+                            </svg>
+                            Mais em breve
+                        </div>
+                    </div>
+                </div>
+
                 <button type="button" class="sidebar-menu-item" id="sidebarTabArtifacts" aria-label="Ver artefatos">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="3"/>
@@ -4406,8 +4477,7 @@
                             </svg>
                         </button>
 
-                        <!-- Barra de transcrição por voz: aparece NO LUGAR dos controles acima,
-                             dentro do próprio composer (sem overlay full-screen). -->
+                        <!-- Barra de transcrição por voz -->
                         <div class="voice-inline" id="voiceInline">
                             <button class="voice-inline-cancel" id="voiceInlineCancel" aria-label="Cancelar">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4575,12 +4645,12 @@
         </div>
     </div>
 
-    <!-- ARTIFACT MENU (⋮) -->
+    <!-- ARTIFACT MENU -->
     <div class="artifact-menu-overlay" id="artifactMenuOverlay">
         <div class="artifact-menu-popup" id="artifactMenuPopup"></div>
     </div>
 
-    <!-- ARTIFACT VIEWER (preview / código) -->
+    <!-- ARTIFACT VIEWER -->
     <div class="artifact-viewer" id="artifactViewer" role="dialog" aria-modal="true">
         <div class="artifact-viewer-header">
             <button type="button" class="artifact-viewer-close" id="artifactViewerClose" aria-label="Fechar">
@@ -4676,7 +4746,7 @@
         </div>
     </div>
 
-    <!-- MODAL DE MODELOS (fora do header para evitar bugs de blur/transparencia) -->
+    <!-- MODAL DE MODELOS -->
     <div class="model-dropdown-overlay" id="modelDropdownOverlay" onclick="toggleModelDropdown()"></div>
     <div class="model-dropdown" id="modelDropdown">
         <div class="model-dropdown-title">
@@ -4712,7 +4782,7 @@
         </div>
     </div>
 
-    <!-- MODAL ADICIONAR AO CHAT (bottom-sheet, estilo +) -->
+    <!-- MODAL ADICIONAR AO CHAT -->
     <div class="attach-modal-overlay" id="attachModalOverlay"></div>
     <div class="attach-modal" id="attachModal" role="dialog" aria-modal="true" aria-labelledby="attachModalTitle">
         <div class="attach-modal-handle"></div>
@@ -4823,8 +4893,8 @@
         // SISTEMA DE TOKENS
         // =========================================
         const TokenSystem = {
-            MAX_TOKENS: 50, // Reduzido para 50 mensagens por dia
-            COST_PER_MESSAGE: 1, // 1 token por mensagem
+            MAX_TOKENS: 50,
+            COST_PER_MESSAGE: 1,
             RESET_INTERVAL: 24 * 60 * 60 * 1000,
 
             getUserTokens() {
@@ -4895,7 +4965,6 @@
                 if (animate) {
                     badge.classList.remove('consuming');
                     footerWrap.classList.remove('consuming');
-                    // force reflow so the animation can restart
                     void badge.offsetWidth;
                     badge.classList.add('consuming');
                     footerWrap.classList.add('consuming');
@@ -5123,9 +5192,9 @@
             isGenerating: false,
             cancelledGenerations: {},
             incognito: false,
-            pendingGenerations: {}, // { chatId: true } - respostas sendo geradas em segundo plano
+            pendingGenerations: {},
             settings: {
-                particleDensity: 100, // Reduzido de 300 para 100 para performance
+                particleDensity: 100,
                 focusMode: false
             }
         };
@@ -5142,8 +5211,8 @@
         let isInBackground = false;
 
         const particleConfig = {
-            connectRadius: 60, // Reduzido de 80 para 60
-            lineAlphaFactor: 0.4, // Reduzido de 0.6 para 0.4
+            connectRadius: 60,
+            lineAlphaFactor: 0.4,
             decayRate: 0.98,
             cameraZ: 400
         };
@@ -5189,7 +5258,6 @@
                 return;
             }
 
-            // Limitar a 30 FPS em mobile para economizar bateria e CPU
             const fpsInterval = window.innerWidth < 768 ? 33 : 16;
             if (timestamp - lastFrameTime < fpsInterval) {
                 animationId = requestAnimationFrame(animateParticles);
@@ -5206,13 +5274,12 @@
                 p.update(time);
             });
 
-            // Otimização: Não desenhar linhas em mobile para máxima performance
             if (!AppState.settings.focusMode && window.innerWidth > 768) {
                 for (let i = 0; i < particles.length; i++) {
                     for (let j = i + 1; j < particles.length; j++) {
                         const dx = particles[i].screenX - particles[j].screenX;
                         const dy = particles[i].screenY - particles[j].screenY;
-                        const dist = dx * dx + dy * dy; // Evitar Math.sqrt
+                        const dist = dx * dx + dy * dy;
                         const radiusSq = particleConfig.connectRadius * particleConfig.connectRadius;
                         if (dist < radiusSq) {
                             const alpha = (1 - Math.sqrt(dist) / particleConfig.connectRadius) * particleConfig.lineAlphaFactor;
@@ -5256,7 +5323,6 @@
         // SPLASH SCREEN - TEXTO EM PARTÍCULAS
         // =========================================
         function getSplashWelcomeText() {
-            // Tenta pegar o nome do usuário já logado (sessão salva) antes do checkAuthState rodar
             try {
                 const session = Storage.get('klipza_session');
                 if (session && session.username) {
@@ -5282,7 +5348,6 @@
             const tctx = canvasEl.getContext('2d');
             tctx.scale(dpr, dpr);
 
-            // Canvas auxiliar para amostrar os pixels do texto
             const sample = document.createElement('canvas');
             sample.width = cssW;
             sample.height = cssH;
@@ -5291,12 +5356,10 @@
             function getTextParticleTargets(text) {
                 sctx.clearRect(0, 0, cssW, cssH);
                 sctx.fillStyle = '#fff';
-                // Fonte maior e sem letter-spacing exagerado para ficar legível
                 let fontSize = 22;
                 sctx.font = `600 ${fontSize}px 'Inter', sans-serif`;
                 sctx.textAlign = 'center';
                 sctx.textBaseline = 'middle';
-                // Reduz o tamanho da fonte automaticamente se o texto não couber na largura do canvas
                 const maxWidth = cssW * 0.92;
                 let textWidth = sctx.measureText(text).width;
                 while (textWidth > maxWidth && fontSize > 11) {
@@ -5331,7 +5394,7 @@
                 }));
             }
 
-            let mode = 'forming'; // forming | holding
+            let mode = 'forming';
             let modeStart = performance.now();
             let rafId;
 
@@ -5348,7 +5411,6 @@
                     });
                     if (elapsed > 900) { mode = 'holding'; modeStart = now; }
                 } else if (mode === 'holding') {
-                    // Fica formado e estável, com leve tremor orgânico, até a splash sumir
                     particlesT.forEach(p => {
                         p.x += (p.tx - p.x) * 0.2 + (Math.random() - 0.5) * 0.1;
                         p.y += (p.ty - p.y) * 0.2 + (Math.random() - 0.5) * 0.1;
@@ -5370,7 +5432,6 @@
 
             rafId = requestAnimationFrame(step);
 
-            // Guarda referência para poder parar quando a splash some
             runSplashTextParticles._rafId = rafId;
             runSplashTextParticles._stop = () => cancelAnimationFrame(rafId);
         }
@@ -5414,7 +5475,6 @@
         function showAuth() {
             document.getElementById('authScreen').classList.remove('hidden');
             document.getElementById('appContainer').classList.remove('visible');
-            // Desativar animação de fundo na tela de login para evitar lag
             if (animationId) {
                 cancelAnimationFrame(animationId);
                 animationId = null;
@@ -5425,7 +5485,6 @@
         function showApp() {
             document.getElementById('authScreen').classList.add('hidden');
             document.getElementById('appContainer').classList.add('visible');
-            // Reativar animação de fundo se não estiver em modo de foco
             document.getElementById('starborne-canvas').style.display = 'block';
             if (!animationId && !AppState.settings.focusMode) {
                 animationId = requestAnimationFrame(animateParticles);
@@ -5444,7 +5503,7 @@
         }
 
         // =========================================
-        // EMPTY STATE: partículas formando o nome (alternando) + relógio ao vivo
+        // EMPTY STATE
         // =========================================
         let emptyStateTimers = { brandInterval: null, clockInterval: null };
 
@@ -5505,8 +5564,6 @@
             canvas.height = cssHeight * dpr;
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-            // Renderiza o texto num buffer offscreen (maior, depois reduzido) pra amostrar
-            // os pixels com nitidez suficiente pra ficar legível como partículas
             const scaleFactor = 3;
             const off = document.createElement('canvas');
             off.width = cssWidth * scaleFactor;
@@ -5521,7 +5578,7 @@
 
             const imgData = offCtx.getImageData(0, 0, off.width, off.height).data;
             const particles = [];
-            const step = 3; // amostra no buffer em alta resolução = mais fidelidade nas letras
+            const step = 3;
             for (let y = 0; y < off.height; y += step) {
                 for (let x = 0; x < off.width; x += step) {
                     const alpha = imgData[(y * off.width + x) * 4 + 3];
@@ -5807,7 +5864,7 @@
 
         function saveUserData() {
             if (!AppState.currentUser) return;
-            if (AppState.incognito) return; // Modo incognito: nada e salvo
+            if (AppState.incognito) return;
             Storage.set(`klipza_data_${AppState.currentUser.username}`, {
                 chats: AppState.chats,
                 settings: AppState.settings,
@@ -6060,16 +6117,63 @@
             if (page) page.classList.remove('active');
         }
 
-        document.getElementById('sidebarTabChats')?.addEventListener('click', () => closeSidebar());
         document.getElementById('sidebarTabArtifacts')?.addEventListener('click', () => openArtifactsPage());
         document.getElementById('artifactsPageBack')?.addEventListener('click', () => closeArtifactsPage());
-        document.getElementById('btnNewProject')?.addEventListener('click', () => showToast('Criar projeto em desenvolvimento.'));
 
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
+        // =========================================
+        // DROPDOWN "MAIS" - toggle com seta
+        // =========================================
+        let maisDropdownOpen = false;
+
+        function toggleMaisDropdown() {
+            maisDropdownOpen = !maisDropdownOpen;
+            const menu = document.getElementById('maisDropdownMenu');
+            const arrow = document.querySelector('#btnMaisDropdown .dropdown-arrow');
+            if (menu) {
+                menu.classList.toggle('open', maisDropdownOpen);
+            }
+            if (arrow) {
+                arrow.classList.toggle('open', maisDropdownOpen);
+            }
         }
+
+        // Fecha o dropdown se clicar fora
+        document.addEventListener('click', function(e) {
+            const dropdown = document.querySelector('.sidebar-dropdown');
+            if (!dropdown) return;
+            const btn = document.getElementById('btnMaisDropdown');
+            const menu = document.getElementById('maisDropdownMenu');
+            if (!dropdown.contains(e.target) && btn && !btn.contains(e.target) && menu && !menu.contains(e.target)) {
+                if (maisDropdownOpen) {
+                    maisDropdownOpen = false;
+                    menu.classList.remove('open');
+                    const arrow = document.querySelector('#btnMaisDropdown .dropdown-arrow');
+                    if (arrow) arrow.classList.remove('open');
+                }
+            }
+        });
+
+        // Fecha o dropdown quando a sidebar for fechada (mobile)
+        function closeMaisDropdown() {
+            if (maisDropdownOpen) {
+                maisDropdownOpen = false;
+                const menu = document.getElementById('maisDropdownMenu');
+                const arrow = document.querySelector('#btnMaisDropdown .dropdown-arrow');
+                if (menu) menu.classList.remove('open');
+                if (arrow) arrow.classList.remove('open');
+            }
+        }
+
+        // Sobrescreve closeSidebar para também fechar o dropdown
+        const originalCloseSidebar = window.closeSidebar || function() {};
+        window.closeSidebar = function() {
+            closeMaisDropdown();
+            if (originalCloseSidebar) originalCloseSidebar();
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            if (sidebar) sidebar.classList.remove('open');
+            if (overlay) overlay.classList.remove('active');
+        };
 
         // =========================================
         // MENSAGENS
@@ -6157,7 +6261,7 @@
         window.copyCodeBlock = copyCodeBlock;
 
         // =========================================
-        // ARTEFATO DE CÓDIGO (cartão de arquivo com preview/código/copiar/baixar)
+        // ARTEFATO DE CÓDIGO
         // =========================================
         const ARTIFACT_MIN_LINES = 15;
 
@@ -6170,8 +6274,6 @@
             pdf: 'pdf'
         };
 
-        // Mostra uma sequência de "passos de raciocínio" antes de entregar o artefato,
-        // com duração proporcional ao tamanho do código (mais linhas = mais tempo "pensando").
         async function showThinkingSequence(textEl, code, lang, chatId) {
             const lineCount = code.split('\n').length;
             const ext = (ARTIFACT_EXT_BY_LANG[(lang || '').toLowerCase()] || 'txt');
@@ -6180,8 +6282,6 @@
                 ? ['Planejando a estrutura', 'Organizando o layout', 'Ajustando estilo visual', 'Adicionando interatividade', 'Revisando o resultado']
                 : ['Entendendo o pedido', 'Planejando a solucao', 'Estruturando o codigo', 'Escrevendo a logica', 'Revisando o resultado'];
 
-            // Quantidade de passos e tempo por passo crescem com o tamanho do código,
-            // simulando que uma tarefa maior exige mais "pensamento" antes de sair pronta.
             const stepCount = lineCount < 30 ? 2 : lineCount < 80 ? 3 : lineCount < 160 ? 4 : 5;
             const perStepMs = lineCount < 30 ? 150 : lineCount < 80 ? 190 : lineCount < 160 ? 230 : 260;
 
@@ -6209,18 +6309,11 @@
         const iconCopy = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
         const iconDots = `<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg>`;
         const iconEye = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
-        const iconCodeTag = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`;
-        const iconPublish = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`;
         const iconDownload = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`;
-        const iconCheck = `<svg class="artifact-menu-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
-        const iconClose = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
 
         let artifactCounter = 0;
         const artifactRegistry = {};
 
-        // Tenta descobrir um nome "humano" para o projeto a partir do próprio código
-        // (ex: <title>Minha Calculadora</title>) ou de um comentário na primeira linha.
-        // Se não achar nada, usa o texto que o usuário pediu como base do nome.
         function guessProjectDisplayName(code, ext, userPrompt) {
             if (ext === 'html') {
                 const titleMatch = code.match(/<title[^>]*>([^<]{2,60})<\/title>/i);
@@ -6243,20 +6336,15 @@
 
         function guessArtifactName(lang, code, userPrompt) {
             const ext = ARTIFACT_EXT_BY_LANG[(lang || '').toLowerCase()] || 'txt';
-            // Nome técnico do arquivo: sempre o padrão da linguagem (o que realmente é salvo no download)
             const technicalBase = ext === 'html' ? 'index' : 'codigo';
             const filename = `${technicalBase}.${ext}`;
 
-            // Nome grande de exibição: baseado no projeto, com fallback para o nome técnico
             const displayName = guessProjectDisplayName(code, ext, userPrompt) ||
                 (ext === 'html' ? 'Index' : 'Código');
 
             return { name: displayName, filename, ext };
         }
 
-        // Registra o código no artifactRegistry e devolve o HTML (string) do cartão.
-        // Usado tanto ao renderizar o histórico (formatMessageText, string) quanto na
-        // digitação animada (typeMessageIntoElement, DOM) via createArtifactCard.
         function renderArtifactCardHtml(code, lang, userPrompt) {
             artifactCounter++;
             const id = 'artifact_' + artifactCounter + '_' + Date.now();
@@ -6290,8 +6378,6 @@
             return holder.firstElementChild;
         }
 
-        // Delegação de eventos: cobre cartões criados via digitação animada E via
-        // histórico (innerHTML), sem precisar religar listeners em cada renderização.
         document.addEventListener('click', (e) => {
             const actionEl = e.target.closest('[data-action]');
             if (!actionEl) return;
@@ -6329,8 +6415,6 @@
             }
         }
 
-        // Converte markdown simples (títulos, parágrafos, listas, negrito) em blocos
-        // estruturados que o gerador de PDF consegue desenhar página por página.
         function parseMarkdownForPdf(md) {
             const lines = (md || '').replace(/\r\n/g, '\n').split('\n');
             const blocks = [];
@@ -6354,8 +6438,6 @@
             return blocks;
         }
 
-        // Gera um PDF real (não texto disfarçado) a partir do markdown do artefato,
-        // com título, hierarquia de fontes, listas e quebra de página automática.
         function generatePdfBlob(art) {
             if (!window.jspdf || !window.jspdf.jsPDF) {
                 showToast('Biblioteca de PDF ainda carregando, tente novamente em instantes.');
@@ -6439,12 +6521,10 @@
             showToast('Arquivo ' + art.filename + ' baixado.');
         }
 
-        // ---------- Menu suspenso (⋮) ----------
         const artifactMenuOverlay = document.getElementById('artifactMenuOverlay');
         const artifactMenuPopup = document.getElementById('artifactMenuPopup');
 
         function buildArtifactMenuItems(id, mode) {
-            // mode: 'card' (a partir do cartão na mensagem) ou 'viewer' (dentro do painel full-screen)
             return `
                 <div class="artifact-menu-item" data-menu-action="preview">
                     <span>Ver prévia</span>
@@ -6469,6 +6549,9 @@
                 </div>
             `;
         }
+
+        const iconPublish = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`;
+        const iconCheck = `<svg class="artifact-menu-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
 
         function openArtifactMenu(id, anchorEl) {
             if (!artifactMenuOverlay || !artifactMenuPopup) return;
@@ -6508,7 +6591,6 @@
 
         if (artifactMenuOverlay) artifactMenuOverlay.addEventListener('click', closeArtifactMenu);
 
-        // ---------- Viewer full-screen (preview / código) ----------
         const artifactViewerState = { openId: null, mode: 'preview' };
         const artifactViewer = document.getElementById('artifactViewer');
         const artifactViewerTitle = document.getElementById('artifactViewerTitle');
@@ -6543,8 +6625,6 @@
             if (artifactViewerState.mode === 'preview' && isHtml) {
                 artifactViewerCode.classList.remove('active');
                 artifactViewerIframeWrap.classList.add('active');
-                // Recria o iframe do zero a cada abertura: evita telas em branco causadas
-                // por conteúdo/estado antigo preso no iframe reaproveitado.
                 const oldIframe = document.getElementById('artifactViewerIframe');
                 const freshIframe = document.createElement('iframe');
                 freshIframe.className = 'artifact-viewer-iframe';
@@ -6592,7 +6672,7 @@
         });
 
         // =========================================
-        // AÇÕES DA MENSAGEM (copiar / regenerar / feedback)
+        // AÇÕES DA MENSAGEM
         // =========================================
         const MAX_REGENERATIONS = 3;
 
@@ -6616,9 +6696,6 @@
             `;
         }
 
-        // =========================================
-        // TEXTO PARA VOZ (Web Speech Synthesis) - escolhe a melhor voz PT-BR disponivel
-        // =========================================
         let ttsVoicesCache = null;
         let ttsCurrentUtterance = null;
         let ttsCurrentBtn = null;
@@ -6629,7 +6706,6 @@
             if (!voices || !voices.length) return null;
             const ptVoices = voices.filter(v => v.lang && v.lang.toLowerCase().startsWith('pt'));
             if (!ptVoices.length) return null;
-            // Preferencia: pt-BR > vozes online/nao-locais costumam soar mais naturais > primeira disponivel
             const ptBR = ptVoices.filter(v => v.lang.toLowerCase() === 'pt-br');
             const pool = ptBR.length ? ptBR : ptVoices;
             const naturalSounding = pool.find(v => !v.localService) || pool.find(v => /natural|wavenet|neural/i.test(v.name));
@@ -6652,7 +6728,6 @@
                 showToast('Leitura em voz alta nao e suportada neste navegador.');
                 return;
             }
-            // Se ja estiver lendo esse mesmo botao, para (toggle)
             if (ttsCurrentBtn === btn) { stopSpeaking(); return; }
             stopSpeaking();
 
@@ -6678,7 +6753,6 @@
             window.speechSynthesis.speak(utter);
         }
 
-        // Alguns navegadores carregam a lista de vozes de forma assincrona
         if ('speechSynthesis' in window) {
             window.speechSynthesis.onvoiceschanged = () => { ttsVoicesCache = window.speechSynthesis.getVoices(); };
         }
@@ -6749,8 +6823,6 @@
                 const sendFeedback = () => {
                     const val = feedbackInput.value.trim();
                     if (!val) return;
-                    // Envio direto ao WhatsApp nao e possivel sem abrir o app/navegador (limitacao de plataforma).
-                    // O feedback fica registrado localmente para o desenvolvedor conferir depois.
                     try {
                         const stored = Storage.get('klipza_feedback') || [];
                         stored.push({ text: val, message: currentText, date: new Date().toISOString() });
@@ -6778,7 +6850,6 @@
                 return;
             }
 
-            // Acha a mensagem de usuario mais proxima antes dessa resposta
             let userText = null;
             for (let i = msgIdx - 1; i >= 0; i--) {
                 if (chat.messages[i].role === 'user') { userText = chat.messages[i].text; break; }
@@ -6960,7 +7031,6 @@
             AppState.isGenerating = true;
             AppState.pendingGenerations[originChatId] = true;
             updateSendButton();
-            // Só mostra o indicador de "digitando" se o usuário ainda estiver nesse chat
             if (AppState.currentChatId === originChatId) showTypingIndicator();
 
             let response = null;
@@ -6982,8 +7052,6 @@
                     await addMessageWithAnimation('ai', 'klipza.ia', response, text);
                 }
             } else if (chat) {
-                // Usuario saiu do chat antes da resposta ficar pronta: salva direto no
-                // historico (sem animacao, ja que ninguem esta olhando) e notifica.
                 const time = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
                 const finalText = failed ? 'Desculpe, ocorreu um erro na conexao estelar. Tente novamente em breve.' : response;
                 chat.messages.push({ role: 'ai', author: 'klipza.ia', text: finalText, time, timestamp: Date.now(), regenCount: 0 });
@@ -7000,7 +7068,6 @@
         }
 
         async function callGeminiAPI(prompt) {
-            // Rota segura via Vercel Serverless Function
             const API_URL = '/api/chat';
             
             const chat = AppState.chats[AppState.currentChatId];
@@ -7026,10 +7093,6 @@
             return data.choices[0].message.content;
         }
 
-        // Digita o texto dentro de um elemento .message-text usando efeito de
-        // "desintegração reversa": cada letra surge como partícula (blur + leve rotação
-        // aleatória + brilho) e se assenta na posição final, formando a palavra.
-        // No final tudo fica com aparência de texto normal, selecionável e copiável.
         async function typeMessageIntoElement(textEl, text, userPrompt, chatId) {
             const segments = parseMessageSegments(text);
             const wasCancelled = () => chatId && AppState.cancelledGenerations[chatId];
@@ -7077,8 +7140,6 @@
                         if (wrapper) { wrapper.className = 'text-important'; p.appendChild(wrapper); }
                         const container = wrapper || p;
 
-                        // Quebra o token em palavras (mantendo os espaços) para poder
-                        // agrupar as letras de cada palavra e impedir quebra de linha no meio dela
                         const words = tok.text.split(/(\s+)/);
                         for (const word of words) {
                             if (word === '') continue;
@@ -7098,7 +7159,6 @@
                                 span.textContent = ch;
                                 wordGroup.appendChild(span);
                                 scrollToBottom();
-                                // Desintegração reversa: rápida, sem perder o efeito
                                 await new Promise(r => setTimeout(r, 8 + Math.random() * 6));
                             }
                         }
@@ -7138,7 +7198,6 @@
             const chatId = chat.id;
             const wasCancelled = await typeMessageIntoElement(textEl, text, userPrompt, chatId);
 
-            // Se foi cancelada, guarda só o que já apareceu na tela + aviso, descarta o resto
             const finalText = wasCancelled ? (textEl.textContent || '').trim() : text;
             msg.text = finalText;
             msg.regenCount = 0;
@@ -7160,7 +7219,6 @@
 
             saveUserData();
 
-            // Adiciona botões de ação (copiar / regenerar / feedback) após a mensagem pronta
             const content = row.querySelector('.message-content');
             const actionsHolder = document.createElement('div');
             actionsHolder.innerHTML = messageActionsHtml();
@@ -7192,7 +7250,7 @@
             if (e.key === 'Enter' && !e.shiftKey && !isComposing) {
                 e.preventDefault();
                 if (!btnSend.disabled) {
-                    if (isRecording) closeVoiceModal();
+                    if (isRecording) closeVoiceInline();
                     sendMessage(userInput.value);
                     userInput.value = '';
                     userInput.style.height = 'auto';
@@ -7209,11 +7267,11 @@
             }
 
             const now = Date.now();
-            if (now - lastSendTime < 2000) return; // Anti-spam: 2 segundos entre envios
+            if (now - lastSendTime < 2000) return;
             
             if (!btnSend.disabled) {
                 lastSendTime = now;
-                if (isRecording) closeVoiceModal();
+                if (isRecording) closeVoiceInline();
                 sendMessage(userInput.value);
                 userInput.value = '';
                 userInput.style.height = 'auto';
@@ -7241,9 +7299,6 @@
             }
         }
 
-        // =========================================
-        // BOTAO DE ANEXO (+) -> MODAL "ADICIONAR AO CHAT"
-        // =========================================
         const btnAttach = document.getElementById('btnAttach');
         const attachModal = document.getElementById('attachModal');
         const attachModalOverlay = document.getElementById('attachModalOverlay');
@@ -7285,7 +7340,7 @@
         }
 
         // =========================================
-        // ENTRADA POR VOZ (Web Speech API) - BARRA INLINE NO COMPOSER
+        // ENTRADA POR VOZ
         // =========================================
         const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
         let voiceRecognition = null;
@@ -7351,14 +7406,11 @@
                 } else if (event.error === 'no-speech') {
                     voiceInlineStatus.textContent = 'Continue falando...';
                 } else if (event.error === 'aborted') {
-                    // Encerramento intencional (usuario cancelou/confirmou) - ignora silenciosamente
                 } else {
                     voiceInlineStatus.textContent = 'Erro no microfone';
                 }
             };
 
-            // Reinicia automaticamente se a API parar sozinha (comportamento comum do navegador
-            // apos alguns segundos de silencio), mantendo a gravacao continua enquanto ativa.
             recognition.onend = () => {
                 if (isRecording) {
                     try { recognition.start(); } catch (e) {}
@@ -7382,10 +7434,6 @@
             voiceRecognition = setupVoiceRecognition();
             if (!voiceRecognition) { closeVoiceInline(); return; }
 
-            // O SpeechRecognition cuida da permissao de microfone internamente (o navegador
-            // so pergunta na primeira vez; depois fica lembrado para este site). Nao chamamos
-            // getUserMedia em paralelo aqui - isso é o que travava/silenciava o mic antes,
-            // porque dois handshakes de audio disputavam o mesmo dispositivo ao mesmo tempo.
             try {
                 voiceRecognition.start();
                 isRecording = true;
@@ -7397,9 +7445,6 @@
         }
 
         function attachVoiceWaveform() {
-            // Stream separado só para desenhar o waveform, aberto SÓ depois que o
-            // recognition confirmou (onstart) que já está ouvindo - nunca em paralelo
-            // com o start(), para não disputar o device de áudio.
             navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
                 if (!isRecording) { stream.getTracks().forEach(t => t.stop()); return; }
                 voiceMicStream = stream;
@@ -7526,12 +7571,18 @@
             overlay.classList.add('active');
         });
 
-        overlay.addEventListener('click', closeSidebar);
+        overlay.addEventListener('click', function() {
+            closeSidebar();
+        });
 
-        function closeSidebar() {
+        // closeSidebar já foi sobrescrita acima para também fechar o dropdown "Mais"
+        // Mas mantemos a definição original para referência
+        const originalCloseSidebarRef = window.closeSidebar;
+        window.closeSidebar = function() {
+            closeMaisDropdown();
             if (sidebar) sidebar.classList.remove('open');
             if (overlay) overlay.classList.remove('active');
-        }
+        };
 
         document.getElementById('btnNewChat').addEventListener('click', () => {
             createNewChat();
@@ -7687,7 +7738,7 @@
         });
 
         // =========================================
-        // MODAL LEGAL (Termos / Privacidade / Seguranca)
+        // MODAL LEGAL
         // =========================================
         function openLegalModal(tab) {
             document.querySelectorAll('.legal-tab').forEach(t => t.classList.toggle('active', t.dataset.legalTab === tab));
@@ -7713,7 +7764,7 @@
         });
 
         // =========================================
-        // LOGIN COM GOOGLE (simulado localmente - sem backend OAuth configurado)
+        // LOGIN COM GOOGLE
         // =========================================
         async function handleGoogleAuth(mode) {
             const btn = document.getElementById(mode === 'login' ? 'googleLoginButton' : 'googleRegisterButton');
@@ -7723,7 +7774,6 @@
 
             await new Promise(r => setTimeout(r, 700));
 
-            // Sem backend OAuth real: simula uma identidade Google de demonstracao
             const demoEmail = 'usuario.google@gmail.com';
             const demoUsername = 'usuario_google';
 
@@ -7761,7 +7811,6 @@
         }
         window.handleGoogleAuth = handleGoogleAuth;
 
-
         let toastTimeout = null;
         // =========================================
         // NOTIFICAÇÕES E RESPOSTA EM SEGUNDO PLANO
@@ -7782,8 +7831,6 @@
             }
         }
 
-        // Dispara notificação do sistema quando a resposta termina de gerar e o usuario
-        // ja nao esta olhando pra aquele chat (trocou de conversa, minimizou, ou trocou de aba).
         async function notifyBackgroundReply(chatId, chatTitle, replyText) {
             const isTabHidden = document.hidden;
             const isDifferentChat = AppState.currentChatId !== chatId;
@@ -7813,13 +7860,9 @@
                         notif.close();
                     };
                 }
-            } catch (e) {
-                // Notificacao falhou silenciosamente (navegador sem suporte completo) - sem problema
-            }
+            } catch (e) {}
         }
 
-        // Mostra/some o aviso "klipza esta respondendo em segundo plano" no topo do chat
-        // atual, conforme haja ou nao uma geracao pendente para a conversa aberta.
         function refreshBackgroundIndicator() {
             const existing = document.getElementById('bgGenerationBanner');
             const isPending = !!AppState.pendingGenerations[AppState.currentChatId];
@@ -7828,7 +7871,7 @@
                 if (existing) existing.remove();
                 return;
             }
-            if (existing) return; // já visível
+            if (existing) return;
 
             const wrapper = document.getElementById('messagesWrapper');
             if (!wrapper) return;
@@ -7870,20 +7913,19 @@
         window.toggleModelDropdown = toggleModelDropdown;
         window.selectModel = selectModel;
         window.cancelDeletion = cancelDeletion;
+        window.toggleMaisDropdown = toggleMaisDropdown;
     </script>
     <script>
         let newWorker;
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js').then(reg => {
-                    // Verificar atualizações a cada 5 minutos
                     setInterval(() => { reg.update(); }, 1000 * 60 * 5);
 
                     reg.addEventListener('updatefound', () => {
                         newWorker = reg.installing;
                         newWorker.addEventListener('statechange', () => {
                             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                // Atualização automática imediata
                                 if (newWorker) {
                                     newWorker.postMessage('skipWaiting');
                                 }
@@ -7912,11 +7954,9 @@
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            // Mostrar botão de instalação customizado se necessário
             console.log('App pronto para instalar');
         });
 
-        // Funções para o Banner de Instalação
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
@@ -7924,7 +7964,7 @@
             if (installBanner) {
                 setTimeout(() => {
                     installBanner.style.display = 'flex';
-                }, 3000); // Mostrar após 3 segundos
+                }, 3000);
             }
         });
 
@@ -7946,7 +7986,6 @@
             if (installBanner) installBanner.style.display = 'none';
         }
 
-        // Simulação de Pagamento Bloqueado (Klipza Prime)
         function openPrimePayment() {
             alert("Klipza Prime (klipza.prime) está em desenvolvimento.\nValor previsto: R$ 120,00/mês.\nFuncionalidade bloqueada no momento.");
         }
